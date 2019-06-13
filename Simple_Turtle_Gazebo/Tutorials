@@ -1,0 +1,64 @@
+Documentation about how to use this project.
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+This project has to be used with ROS Kinetic-Kame version (wiki.ros.org/kinetic) and Gazebo 7.0 version at least (gazebosim.org/#status).
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+ROS packages to install for this project:
+
+gazebo-ros-pkgs (source: wiki.ros.org/gazebo_ros_pkgs)
+
+key_teleop (source: wiki.ros.org/key_teleop)
+
+slam_gmapping (source: wiki.ros.org/slam_gmapping)
+
+move_base (source: wiki.ros.org/move_base)
+
+frontier_exploration (source: wiki.ros.org/frontier_exploration)
+
+RViz (source: wiki.ros.org/rviz)
+
+Packages and them dependencies are installed at the same time.
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+How to launch:
+
+Before start: If you did the real implementation before, comment with a # the third last lines of your ~/.bashrc file (Lines concerning
+the ROS_HOSTNAME, ROS_MASTER_URI and TURTLEBOT3_MODEL). After that source your file ($ source ~/.bashrc) and / or restart your computer.
+
+Open 1 to 5 terminal in function of what you want to launch:
+
+Launch Gazebo with ROS (obligatory step):
+Open a terminal (Terminal 1): Source the setup.bash file and launch gazebo with ROS.
+$ cd catkin_ws
+$ source devel/setup.bash
+$ cd src/Simple_Turtle_Gazebo
+$ roslaunch turtle_gazebo turtle.launch
+
+Gazebo will be launched with the turtlebot3 model simplified and simulation off. If you want to run RViz later or test key_teleop, run
+the Gazebo simulation. You can move the robot by using rostopic pub on /cmd_vel.
+(more informations to use $ rostopic pub /cmd_vel: wiki.ros.org/Robots/TIAGo/Tutorials/motions/cmd_vel)
+
+
+Use key_teleop:
+Open a new terminal (Terminal 2): run the key_teleop node.
+$ rosrun key_teleop key_teleop.py key_vel:=cmd_vel
+
+This step will wallow you to use your arrows keys to control the robot.
+
+
+Use Rviz (Obligatory step to use move_base and frontier_exploration)
+Open a new terminal (Terminal 3): run the Rviz.launch file.
+$ roslaunch turtle_description rviz.launch
+
+Put the simulation on Gazebo on.
+
+
+Use move_base and frontier_exploration:
+Open two terminals (Terminals 4 and 5): launch the two .launch file.
+Terminal 4: $ roslaunch 
+
+
