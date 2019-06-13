@@ -1,0 +1,17 @@
+digraph G {
+node [shape=box];
+"link_0" [label="link_0"];
+"link_1" [label="link_1"];
+"link_1_clone" [label="link_1_clone"];
+"link_LIDAR" [label="link_LIDAR"];
+"link_2" [label="link_2"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"link_0" -> "link_0_JOINT_0" [label="xyz: -0.0315 0.07885 -0.0475 \nrpy: 0 1.5708 -1.5708"]
+"link_0_JOINT_0" -> "link_1"
+"link_0" -> "link_0_JOINT_0_0" [label="xyz: -0.0315 -0.07885 -0.0475 \nrpy: 0 1.5708 -1.5708"]
+"link_0_JOINT_0_0" -> "link_1_clone"
+"link_0" -> "link_0_JOINT_0_1" [label="xyz: -0.0201 -0.00174 0.09355 \nrpy: 0 0 -1.5707"]
+"link_0_JOINT_0_1" -> "link_LIDAR"
+"link_0" -> "link_0_JOINT_2" [label="xyz: 0.055 0 -0.075 \nrpy: 0 -0 0"]
+"link_0_JOINT_2" -> "link_2"
+}

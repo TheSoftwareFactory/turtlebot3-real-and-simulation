@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+<param name="robot_description" command="cat '$(find turtle_description)/urdf/turtle.urdf'"/>
+
+  <include file ="$(find gazebo_ros)/launch/empty_world.launch"> 
+    <arg name="world_name" value="$(find turtle_gazebo)/worlds/turtle.world"/>
+    <arg name="paused" value="true"/>
+  </include>
+
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find turtle_description)/urdf/turtle.urdf -urdf -x 3 -y 3 -z 0.15 -model turtle"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+<!--
+  <node name="rviz" pkg="rviz" type="rviz"/>
+-->
+</launch>
+
