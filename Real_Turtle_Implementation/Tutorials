@@ -1,0 +1,97 @@
+Real implementation.
+
+/!\ There still a problem with move_base packages, all the relative part may be changed /!\
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+First, install Debian on the Turtlebot3 following this link whithout the network configuration:
+emanual.robotis.com/docs/en/platform/turtlebot3/raspberry_pi_3_setup/#raspberry-pi-3-setup
+
+After Debian was installed and local time was set, at each start of the Turtlebot3, you will have to run the followings commands on the
+turtlebot3:
+
+$ export OPENCR_PORT=/dev/ttyACM0
+$ export OPENCR_MODEL=birger
+$ rm -rf ./opencr_update.tar.bz2
+$ wget https://github.com/ROBOTIS-GIT/OpenCR-Binaries/raw/master/turtlebot3/ROS1/latest/opencr_update.tar.bz2 && tar -xvf opencr_update.tar.bz2 && cd ./opencr_update && ./update.sh $OPENCR_PORT $OPENCR_MODEL.opencr && cd ..
+
+(source: emanual.robotis.com/docs/en/platform/turtlebot3/opencr_setup/#opencr-firmware-upload-for-tb3)
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Configuration of the communication between your ROS on remote PC and ROS on Turtlebot3 (you need to be in the same network as wifi)
+
+Remote PC:
+Get your IP Address (wlan address on ifconfig) and modify the .bashrc file:
+$ ifconfig
+Copy your wlan IP address. We will call this IP address IP_REMOTE_PC in this tutorial.
+
+$ nano ~/.bashrc
+At the end of the file, add these three lines:
+
+export ROS_MASTER_URI=http://IP_REMOTE_PC:11311
+export ROS_HOSTNAME=IP_REMOTE_PC
+export TURTLEBOT3_MODEL=burger
+
+Source the file: $ source ~/.bashrc
+
+Turtlebot3:
+Get your IP address same ways as Remote PC and open .bashrc too. We will call the Turtlebot3's IP, IP_TURTLE
+At the end of the file add these three lines:
+
+export ROS_MASTER_URI=http://IP_REMOTE_PC:11311
+export ROS_HOSTNAME=IP_TURTLE
+export TURTLEBOT3_MODEL=burger
+
+Source the file: $ source ~/.bashrc
+
+If you are working with a virtual machine as VirtualBox and your wlan address isn't with 192.168.X.X or if it doesn't work,
+please check the end of the next section.
+
+(source: emanual.robotis.com/docs/en/platform/turtlebot3/pc_setup/#network-configuration)
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Setup of SSH connection (same wifi network):
+
+Try the following command:
+$ ssh pi@IP_TURTLE
+
+If it doesn't work:
+- Put your remote_PC with same clock as turtlebot3. For that, on both devices:
+
+$ sudo apt-get install ntpdate
+$ sudo ntpdate ntp.ubuntu.com
+
+- If you are working with a virtual machine and don't have a wlan 192.168.X.X IP, with VirtualBox:
+Launch the virtual machine with a NAT Network on.
+When you are on the desktop, go to Devices -> Network -> Network Settings and switch the active network from NAT to Bridge Access.
+After a few seconds, run $ ifconfig to see if your IP address start with 192.168
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+How to use:
+
+Run 5 Terminals with one connect in SHH to the turtlebot
+
+Remote PC:
+Run master (Terminal 1): 
+$ cd catkin_ws
+$ source devel/setup.bash
+$ roscore
+
+Turtlebot (Terminal 2 connect to Turtlebot3):
+Run Robot with LIDAR:
+$ cd catkin
+$ source devel/setup.bash
+$ roslaunch turtlebot3_bringup turtlebot3_robot.launch
+
+Remote PC (Terminal 3):
+Run key_teleop:
+$ rosrun key_teleop key_teleop.py key_vel:=cmd_vel
+
+Run Rviz  on remote PC (Terminal 4⁾:
+$ roslaunch turtlebot3_bringup turtlebot3_model.launch
+
+Run move_base and frontier_exploration (Terminal 5):
+$ roslaunch turtlebot3_slam turtlebot3_frontier_exploration.launch
