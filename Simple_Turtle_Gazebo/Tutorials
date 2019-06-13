@@ -59,6 +59,15 @@ Put the simulation on Gazebo on.
 
 Use move_base and frontier_exploration:
 Open two terminals (Terminals 4 and 5): launch the two .launch file.
-Terminal 4: $ roslaunch 
+Terminal 4: $ roslaunch turtle_2dnav move_base.launch
+Terminal 5: $ roslaunch turtle_frontier turtle_frontier.launch
 
 
+You will now able to move the robot from a A point to a B point (Use 2D nav goal arrows of RViz) and allow the robot to explroe a
+polygon (use Publish Point from RViz).
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+To use your own world, put your world in the worlds folder of turtle_gazebo. After, modify the turtle.launch file and change
+"turtle.world" by the name of your file (line 7). To use another model in URDF, put your URDF file in turtle_description/URDF and
+change "turtle.urdf" (lines 4 and 11) by your own files
